@@ -1,0 +1,23 @@
+{
+  "name": "dodo-dm1-react",
+  "version": "1.2.0",
+  "description": "DODO DM1 — High Speed Multi-Connection Download Manager (React UI)",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "electron .",
+    "app": "vite build && electron ."
+  },
+  "dependencies": {
+    "lucide-react": "^1.16.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.1",
+    "vite": "^6.0.7"
+  }
+}

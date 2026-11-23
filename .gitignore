@@ -1,0 +1,28 @@
+/target
+**/*.rs.bk
+build-cache/
+signing/
+__pycache__/
+tools/ffmpeg/win64/
+
+# Build dependencies and generated files
+**/node_modules/
+**/bin/
+**/obj/
+**/dist/
+
+# Installer and archive files
+*.exe
+*.msi
+*.rar
+*.7z
+*.zip
+
+# Temporary files
+*.log
+*.tmp
+
+# Secrets
+.env
+.env.*
+!.env.example

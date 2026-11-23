@@ -1,0 +1,120 @@
+// Multi-language translation helper backed by crates/app/lang/ui/*.json & crates/app/lang/rs/*.json
+export const LANGUAGES = [
+  { code: 'ar', name: 'العربية', rtl: true },
+  { code: 'en', name: 'English', rtl: false },
+  { code: 'fr', name: 'Français', rtl: false },
+  { code: 'es', name: 'Español', rtl: false },
+  { code: 'de', name: 'Deutsch', rtl: false },
+  { code: 'pt', name: 'Português', rtl: false },
+  { code: 'tr', name: 'Türkçe', rtl: false },
+  { code: 'ru', name: 'Русский', rtl: false },
+];
+
+// Core fallback Arabic table (augmented dynamically by /ui/translations/ar from ar.json)
+const FALLBACK_AR = {
+  'DODO DM1': 'DODO DM1',
+  'All Downloads': 'كل التحميلات',
+  'Unfinished': 'غير مكتمل',
+  'Finished': 'مكتمل',
+  'Queues': 'قوائم الانتظار',
+  'Compressed': 'مضغوطات',
+  'Documents': 'مستندات',
+  'Music': 'صوتيات',
+  'Programs': 'برامج',
+  'Video': 'فيديو',
+  'Images': 'صور',
+  'General': 'عام',
+  'Download a part': 'تحميل جزء من فيديو',
+  'Add URL': 'إضافة رابط',
+  'Add Batch': 'تحميل مجموعة',
+  'Site Grabber': 'جامع المواقع',
+  'Playlist': 'قائمة تشغيل',
+  'Video Part': 'قص فيديو',
+  'Torrent': 'تورنت',
+  'Resume': 'استئناف',
+  'Stop': 'إيقاف',
+  'Stop All': 'إيقاف الكل',
+  'Resume All': 'استئناف الكل',
+  'Delete': 'حذف',
+  'Options': 'خيارات',
+  'Scheduler': 'المجدول',
+  'Speed Limiter': 'محدد السرعة',
+  'Browsers': 'المتصفح',
+  'Search…': 'بحث…',
+  'Connections': 'الاتصالات',
+  'Details': 'التفاصيل',
+  'Cancel': 'إلغاء',
+  'OK': 'موافق',
+  'Save': 'حفظ',
+  'Close': 'إغلاق',
+  'Browse…': 'استعراض…',
+  'Apply': 'تطبيق',
+  'Name': 'الاسم',
+  'Size': 'الحجم',
+  'Status': 'الحالة',
+  'Time left': 'الوقت المتبقي',
+  'Transfer rate': 'السرعة',
+  'Date added': 'تاريخ الإضافة',
+  'Last try': 'آخر محاولة',
+  'Description': 'الوصف',
+  'Save to': 'الحفظ في',
+  'Referer': 'المُحيل',
+  'Parent web page': 'الصفحة الأصلية',
+  'Open / Play Now': 'تشغيل الآن',
+  'Download Progress': 'نافذة التحميل',
+  'Start Download': 'تحميل الآن',
+  'Download Later': 'تحميل لاحقاً',
+  'Download Channels': 'قنوات التحميل الحية',
+  'Active': 'نشط',
+  'Boost Channels': 'عدد القنوات',
+  'Channel Speed': 'سرعة القناة',
+  'Receiving data': 'جاري الاستلام',
+  'Waiting': 'في الانتظار',
+  'Complete': 'مكتمل',
+  'All channels finished downloading.': 'اكتملت جميع قنوات التحميل بنجاح.',
+  'Single stream (server does not support split channels)': 'قناة واحدة (الخادم لا يدعم تقسيم الملف إلى قنوات)',
+  'Opening parallel channels...': 'جارٍ فتح قنوات التحميل المتوازية...',
+  'Queue': 'القائمة',
+  'Help': 'مساعدة',
+  'Add DODO DM1 to my browser…': 'إضافة DODO DM1 إلى متصفحي…',
+  'Keyboard shortcuts': 'اختصارات لوحة المفاتيح',
+  'Keyboard Shortcuts': 'اختصارات لوحة المفاتيح',
+  "What's new": 'ما الجديد في هذا الإصدار',
+  "What's New": 'ما الجديد في هذا الإصدار',
+  'Check for updates': 'البحث عن تحديثات',
+  'Check for Updates': 'البحث عن تحديثات',
+  'Check for updates (video downloader)': 'البحث عن تحديثات (أداة الفيديو)',
+  'About DODO DM1': 'حول DODO DM1',
+  'New update available for DODO DM1': 'يوجد تحديث جديد للبرنامج',
+  'New Update Available': 'يوجد تحديث جديد للبرنامج',
+  'Update': 'تحديث',
+  'Later': 'لاحقاً',
+  'Current version': 'الإصدار الحالي',
+  'New version': 'الإصدار الجديد',
+  'Browser Integration': 'التكامل مع المتصفحات',
+  'Copy Path': 'نسخ المسار',
+  'Extension Folder': 'مجلد الإضافة',
+  'Checking link…': 'جاري فحص الرابط',
+  'Initializing download…': 'جاري تهيئة التحميل',
+  'Connecting to server…': 'جاري الاتصال بالسيرفر',
+  'Data transfer started': 'بدأ تنزيل البيانات',
+  'Downloading': 'جارٍ التحميل',
+  'Paused': 'متوقف مؤقتاً',
+  'Download failed': 'فشل التحميل',
+};
+
+export function createTranslator(lang, remoteDict = {}) {
+  return (enKey, ...args) => {
+    let template = enKey;
+    if (lang !== 'en') {
+      if (remoteDict && remoteDict[enKey]) {
+        template = remoteDict[enKey];
+      } else if (lang === 'ar' && FALLBACK_AR[enKey]) {
+        template = FALLBACK_AR[enKey];
+      }
+    }
+    if (!args || args.length === 0) return template;
+    let i = 0;
+    return template.replace(/\{\}/g, () => (i < args.length ? String(args[i++]) : '{}'));
+  };
+}
